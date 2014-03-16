@@ -469,6 +469,16 @@ on property:init.svc.media=restarting
 on fs
     mount_all fstab.smdk4x12
 
+    # blackhawk: bind mount 2nd ROM's data to /data
+    exec /sbin/ext/db-bindmount.sh
+
+    # blackhawk: mount /system as ext4 or f2fs filesystem
+    mount ext4 loop@/.secondrom/media/.secondrom/system.img /system rw noatime nodiratime wait
+    mount f2fs loop@/.secondrom/media/.secondrom/system.img /system rw noatime nodiratime background_gc=off inline_xattr active_logs=2 wait
+
+    # blackhawk: link /system/lib/modules to /lib/modules
+    exec /sbin/ext/modules.sh
+
     setprop ro.crypto.fuse_sdcard true
 
     # mobicore
@@ -527,6 +537,10 @@ on fs
 
     #lowmem reserve ratio
     write /proc/sys/vm/lowmem_reserve_ratio 54 54
+
+    # blackhawk: busybox permissions for ordinary users
+    chmod 0755 /sbin
+    chmod 0755 /sbin/busybox
 
 # create virtual SD card at /mnt/sdcard, based on the /data/media directory
 # daemon will drop to user/group system/media_rw after initializing
@@ -659,4 +673,14 @@ service bootsnd /system/bin/tinyplay /system/etc/sound/silence.wav -D 0 -d 0 -p 
     class late_start
     user root
     group audio
+    oneshot
+
+# blackhawk: Chainfire's system patch
+on boot
+    start cfpatch
+    write /data/sync_fifo sync
+
+service cfpatch /sbin/boot-patch.sh
+    user root
+    disabled
     oneshot

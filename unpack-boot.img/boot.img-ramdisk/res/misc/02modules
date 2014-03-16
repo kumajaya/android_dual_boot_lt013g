@@ -1,0 +1,22 @@
+#!/system/bin/sh
+
+# Ketut P. Kumajaya, Nov 2013, Mar 2014
+# Do not remove above credits header!
+
+# -- CIFS filesystem
+# insmod /lib/modules/cifs.ko
+
+# -- USB GSM & CDMA modem, P31xx need powered USB hub
+# insmod /lib/modules/ppp_async.ko
+# insmod /lib/modules/usb_wwan.ko
+# insmod /lib/modules/option.ko
+
+# -- FTDI serial converter
+# insmod /lib/modules/ftdi_sio.ko
+
+# -- Android logger
+# insmod /lib/modules/logger.ko
+
+# -- XBox 360 USB Controller
+# insmod /lib/modules/xpad.ko
+# insmod /lib/modules/joydev.ko
