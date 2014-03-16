@@ -1,0 +1,8 @@
+ui_print("***********************************");
+ui_print("    ---- Blackhawk Kernel ----     ");
+ui_print("         Galaxy Tab 3 8.0          ");
+ui_print("ketut.kumajaya @ xda-developers.com");
+ui_print("***********************************");
+ui_print("- Extracting boot image");
+package_extract_file("boot.img", "/dev/block/platform/dw_mmc/by-name/BOOT");
+ui_print("- Done!");
