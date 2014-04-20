@@ -1,4 +1,6 @@
-if busybox [ ! -f /system/blackhawk-next/release-12- ]; then
+VERSION=$(/sbin/busybox cat /res/misc/version.txt)
+
+if busybox [ ! -f /system/blackhawk-next/release-$VERSION- ]; then
   # Remount system RW
   busybox mount -o remount,rw /system
 
@@ -31,7 +33,7 @@ if busybox [ ! -f /system/blackhawk-next/release-12- ]; then
   busybox mkdir -p /system/blackhawk-next
   busybox chmod 755 /system/blackhawk-next
   busybox rm /system/blackhawk-next/*
-  echo 1 > /system/blackhawk-next/release-12-
+  echo 1 > /system/blackhawk-next/release-$VERSION-
 
   # Remount system RO
   busybox sync
