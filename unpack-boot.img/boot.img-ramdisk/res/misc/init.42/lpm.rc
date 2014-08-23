@@ -10,6 +10,7 @@ on init
     export EXTERNAL_STORAGE /sdcard
 
     symlink /system/etc /etc
+    symlink /system/vendor /vendor
 
     mkdir /sdcard
     mkdir /preload
@@ -25,7 +26,8 @@ on init
 on early-fs
 	insmod /lib/modules/vibrator.ko
 
-    mount ext4 /dev/block/mmcblk0p20 /system ro wait noatime
+    mount ext4 /dev/block/platform/dw_mmc/by-name/SYSTEM /system ro wait noatime
+    mount f2fs /dev/block/platform/dw_mmc/by-name/SYSTEM /system ro wait noatime background_gc=off inline_xattr active_logs=2
 
 	mkdir /data/log 0777
 
