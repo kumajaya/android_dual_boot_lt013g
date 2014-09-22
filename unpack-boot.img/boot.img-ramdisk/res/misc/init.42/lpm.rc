@@ -70,6 +70,10 @@ service debuggerd /system/bin/debuggerd
 service console /system/bin/sh
 	console
 
+#  blackhawk: Samsung's KitKat lpm
+service lpm /system/bin/lpm
+    user root
+
 service playlpm /system/bin/playlpm
     	user root
 

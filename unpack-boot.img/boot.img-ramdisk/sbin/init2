@@ -38,8 +38,10 @@ fi
 
 CM110=0
 SAMMY42=0
+SAMMY44=0
 
 /sbin/busybox [ -f /system/priv-app/Settings.apk ] && CM110=1
+/sbin/busybox [ -f /system/priv-app/SecSettings.apk ] && SAMMY44=1
 /sbin/busybox [ -f /system/framework/telephony-common.jar ] && SAMMY42=1
 
 if /sbin/busybox [ "$CM110" == 1 ]; then
@@ -48,10 +50,17 @@ if /sbin/busybox [ "$CM110" == 1 ]; then
   /sbin/busybox mv -f /res/misc/init.cm11.0/sbin/* /sbin/
   /sbin/busybox mv -f /res/misc/init.cm11.0/sbin/boot/* /sbin/boot/
 else
-  /sbin/busybox echo 0 > /proc/sys/kernel/rom_feature_set
-  /sbin/busybox mv -f /res/misc/init.42/* /
-  /sbin/busybox mv -f /res/misc/init.42/sbin/* /sbin/
-  /sbin/busybox mv -f /res/misc/init.42/sbin/boot/* /sbin/boot/
+  if /sbin/busybox [ "$SAMMY44" == 1 ]; then
+    /sbin/busybox echo 0 > /proc/sys/kernel/rom_feature_set
+    /sbin/busybox mv -f /res/misc/init.44/* /
+    /sbin/busybox mv -f /res/misc/init.42/sbin/* /sbin/
+    /sbin/busybox mv -f /res/misc/init.42/sbin/boot/* /sbin/boot/
+  else
+    /sbin/busybox echo 0 > /proc/sys/kernel/rom_feature_set
+    /sbin/busybox mv -f /res/misc/init.42/* /
+    /sbin/busybox mv -f /res/misc/init.42/sbin/* /sbin/
+    /sbin/busybox mv -f /res/misc/init.42/sbin/boot/* /sbin/boot/
+  fi
 fi
 
 F2FS=0
@@ -80,6 +89,7 @@ fi
 /sbin/busybox umount -f /dev/pts
 
 /sbin/busybox chmod 755 /innt
+/sbin/busybox chmod 755 /*.sh
 /sbin/busybox chmod 644 /*.smdk4x12*
 /sbin/busybox chmod 644 /*.rc
 /sbin/busybox chmod 644 /*.prop
