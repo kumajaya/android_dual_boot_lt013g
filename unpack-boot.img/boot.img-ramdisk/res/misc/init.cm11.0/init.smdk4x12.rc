@@ -472,10 +472,6 @@ on property:init.svc.media=restarting
 on fs
     mount_all fstab.smdk4x12
 
-    # blackhawk: mount /system as ext4 or f2fs filesystem
-    mount ext4 /dev/block/platform/dw_mmc/by-name/SYSTEM /system rw noatime nodiratime wait
-    mount f2fs /dev/block/platform/dw_mmc/by-name/SYSTEM /system rw noatime nodiratime background_gc=off inline_xattr active_logs=2 wait
-
     # blackhawk: link /system/lib/modules to /lib/modules
     exec /sbin/ext/modules.sh
 
@@ -537,10 +533,6 @@ on fs
 
     #lowmem reserve ratio
     write /proc/sys/vm/lowmem_reserve_ratio 54 54
-
-    # blackhawk: busybox permissions for ordinary users
-    chmod 0755 /sbin
-    chmod 0755 /sbin/busybox
 
 # create virtual SD card at /mnt/sdcard, based on the /data/media directory
 # daemon will drop to user/group system/media_rw after initializing

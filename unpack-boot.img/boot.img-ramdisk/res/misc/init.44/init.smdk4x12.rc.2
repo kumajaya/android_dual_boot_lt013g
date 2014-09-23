@@ -298,10 +298,6 @@ on fs
 
     setprop ro.crypto.fuse_sdcard true
 
-    # blackhawk: busybox access for ordinary users
-    chmod 0755 /sbin
-    chmod 0755 /sbin/busybox
-
 # OTG_TEST
     chown system radio /sys/class/host_notify/usb_otg/booster
     chmod 0660 /sys/class/host_notify/usb_otg/booster

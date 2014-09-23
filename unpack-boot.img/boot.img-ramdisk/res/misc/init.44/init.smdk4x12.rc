@@ -286,18 +286,10 @@ on boot
 on fs
     mount_all /fstab.smdk4x12
 
-    # blackhawk: mount /system as ext4 or f2fs filesystem
-    mount ext4 /dev/block/platform/dw_mmc/by-name/SYSTEM /system rw noatime nodiratime wait
-    mount f2fs /dev/block/platform/dw_mmc/by-name/SYSTEM /system rw noatime nodiratime background_gc=off inline_xattr active_logs=2 wait
-
     # blackhawk: link /system/lib/modules to /lib/modules
     start modules-link
 
     setprop ro.crypto.fuse_sdcard true
-
-    # blackhawk: busybox access for ordinary users
-    chmod 0755 /sbin
-    chmod 0755 /sbin/busybox
 
 # OTG_TEST
     chown system radio /sys/class/host_notify/usb_otg/booster

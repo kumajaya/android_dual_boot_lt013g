@@ -310,10 +310,6 @@ on fs
 #lowmem reserve ratio
     write /proc/sys/vm/lowmem_reserve_ratio 54 54
 
-# blackhawk: busybox access for ordinary users
-    chmod 0755 /sbin
-    chmod 0755 /sbin/busybox
-
 # blackhawk: disable preload partition
 # preload mount. at time use preinstaller
 # on property:persist.sys.storage_preload=1
