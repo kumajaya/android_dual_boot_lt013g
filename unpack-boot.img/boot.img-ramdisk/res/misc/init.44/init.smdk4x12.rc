@@ -769,7 +769,16 @@ on property:ro.bootmode=charger
 on property:ro.bootmode=charger
     class_start sec-charger
 
-service playlpm /system/bin/lpm
+service lpm /system/bin/lpm
+    class sec-charger
+    critical
+
+# blackhawk: JellyBean compatibility
+service playlpm /system/bin/playlpm
+    class sec-charger
+    critical
+
+service lpmkey /system/bin/lpmkey
     class sec-charger
     critical
 

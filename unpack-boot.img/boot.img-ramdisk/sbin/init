@@ -11,8 +11,15 @@ cd /
 
 # Charging, low power mode
 if /sbin/busybox grep -q 1 /sys/class/power_supply/battery/batt_lp_charging ; then
+  # Hijacking cmdline in LPM
+  /sbin/busybox mount -t tmpfs tmpfs /tmp
+  /sbin/busybox sed -e 's/lpcharge\=1/androidboot\.mode\=charger/' \
+    -e 's/selinux\=enforcing/selinux\=permissive/' \
+    /proc/cmdline > /tmp/cmdline
+  /sbin/busybox mount --bind -o ro /tmp/cmdline /proc/cmdline
+
   /sbin/busybox echo 0 > /proc/sys/kernel/rom_feature_set
-  /sbin/busybox mv -f /res/misc/init.42/* /
+  /sbin/busybox mv -f /res/misc/init.44/* /
   /sbin/busybox chmod 755 /innt
   /sbin/busybox chmod 644 /*.smdk4x12*
   /sbin/busybox chmod 644 /*.rc
