@@ -828,3 +828,12 @@ service cfpatch /sbin/boot-patch.sh
     user root
     disabled
     oneshot
+
+# blackhawk: cmdline hijacking end
+on early-init
+    start umount_cmdline
+
+service umount_cmdline /sbin/ext/umount-cmdline.sh
+   user root
+   disabled
+   oneshot

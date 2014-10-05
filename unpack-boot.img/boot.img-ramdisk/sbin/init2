@@ -55,6 +55,19 @@ if /sbin/busybox [ "$CM110" == 1 ]; then
   /sbin/fstab.sh $DEFAULTROM CM110
 else
   if /sbin/busybox [ "$SAMMY44" == 1 ]; then
+    # Hijacking bootloader cmdline, completely disable SELinux
+    /sbin/busybox mount -t tmpfs tmpfs /tmp
+    if /sbin/busybox grep -q "selinux" /proc/cmdline ; then
+      # KitKat bootloader
+      /sbin/busybox sed -e 's/selinux\=enforcing/selinux\=disabled/' \
+        /proc/cmdline > /tmp/cmdline
+    else
+      # JellyBean bootloader
+      /sbin/busybox sed -e 's/lpcharge\=0/androidboot\.selinux\=disabled/' \
+        /proc/cmdline > /tmp/cmdline
+    fi
+    /sbin/busybox mount --bind -o ro /tmp/cmdline /proc/cmdline
+
     /sbin/busybox echo 0 > /proc/sys/kernel/rom_feature_set
     /sbin/busybox mv -f /res/misc/init.44/* /
     /sbin/busybox mv -f /res/misc/init.42/sbin/* /sbin/
@@ -89,6 +102,7 @@ fi
 /sbin/busybox chmod 755 /sbin/boot-patch.sh
 /sbin/busybox chmod 755 /sbin/ext/db-bindmount.sh
 /sbin/busybox chmod 755 /sbin/ext/modules.sh
+/sbin/busybox chmod 755 /sbin/ext/umount-cmdline.sh
 /sbin/busybox chmod 755 /sbin
 /sbin/busybox chmod 755 /sbin/busybox
 
